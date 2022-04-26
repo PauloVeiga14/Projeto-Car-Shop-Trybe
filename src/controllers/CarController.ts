@@ -39,11 +39,10 @@ class CarController extends Controller<Car> {
     res: Response<Car | ResponseError>,
   ): Promise<typeof res> => {
     const { id } = req.params;
+    if (id.length < 24) {
+      return res.status(400).json({ error: this.errors.idLength });
+    }
     try {
-      if (id.length < 24) {
-        return res.status(400).json({ error: this.errors.idLength });
-      }
-
       const car = await this.service.readOne(id);
 
       if (!car) {
@@ -51,6 +50,50 @@ class CarController extends Controller<Car> {
       }
 
       return res.status(200).json(car);
+    } catch (err) {
+      return res.status(500).json({ error: this.errors.internal });
+    }
+  };
+
+  update = async (
+    req: RequestWithBody<Car>,
+    res: Response<Car | ResponseError>,
+  ): Promise<typeof res> => {
+    const { id } = req.params;
+    if (id.length < 24) {
+      return res.status(400).json({ error: this.errors.idLength });
+    }
+    try {
+      const updatedCar = await this.service.update(id, req.body);
+
+      if (!updatedCar) {
+        return res.status(404).json({ error: this.errors.notFound });
+      }
+
+      if ('error' in updatedCar) return res.status(400);
+
+      return res.status(200).json(updatedCar);
+    } catch (err) {
+      return res.status(500).json({ error: this.errors.internal });
+    }
+  };
+
+  delete = async (
+    req: RequestWithBody<Car>,
+    res: Response<Car | ResponseError>,
+  ): Promise<typeof res> => {
+    const { id } = req.params;
+    if (id.length < 24) {
+      return res.status(400).json({ error: this.errors.idLength });
+    }
+    try {
+      const deletedCar = await this.service.delete(id);
+
+      if (!deletedCar) {
+        return res.status(404).json({ error: this.errors.notFound });
+      }
+
+      return res.status(204).json(deletedCar);
     } catch (err) {
       return res.status(500).json({ error: this.errors.internal });
     }

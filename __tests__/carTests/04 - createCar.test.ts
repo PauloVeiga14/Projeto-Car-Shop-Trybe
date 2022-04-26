@@ -7,7 +7,7 @@ import * as carMock from '../utils/CarsMock';
 
 import server from '../../src/server';
 
-describe('04 - Crie uma rota para o endpoint /cars onde seja possível cadastrar um novo carro', () => {
+describe.skip('04 - Crie uma rota para o endpoint /cars onde seja possível cadastrar um novo carro', () => {
   beforeAll(async () => {
     await connection();
   });
