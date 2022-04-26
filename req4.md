@@ -31,6 +31,6 @@ Sua API deve responder com status http 201 e o seguinte body:
   0) Criar uma model genérica para que possamos adicionar outros tipos de veículos - OK!
   1) Criar um model para criar carros - OK!
   1.5) Criar um service genérico para que possamos adicionar outros tipos de veículos
-  2) Criar um service para criar carros
-  3) Criar um controler para criar carros
-  4) Incluir a rota.
+  2) Criar um service para criar carros - Ok!
+  3) Criar um controler para criar carros - Ok!
+  4) Incluir a rota

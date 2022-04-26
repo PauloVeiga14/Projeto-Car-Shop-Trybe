@@ -4,7 +4,7 @@ import ControllerErrors from '../enums/ControllerErrors';
 import Service from '../services/MongoService';
 
 export type ResponseError = {
-  message: unknown,
+  error: unknown,
 };
 
 abstract class Controller<T> {
@@ -27,24 +27,24 @@ abstract class Controller<T> {
       const arrayOfVehicles = await this.service.read();
       return res.status(200).json(arrayOfVehicles);
     } catch (err) {
-      return res.status(500).json({ message: this.errors.internal });
+      return res.status(500).json({ error: this.errors.internal });
     }
   };
 
-  abstract readOne(
-    req: Request<{ _id: string }>,
-    res: Response<T | ResponseError>
-  ): Promise<typeof res>;
+  // abstract readOne(
+  //   req: Request<{ _id: string }>,
+  //   res: Response<T | ResponseError>
+  // ): Promise<typeof res>;
 
-  abstract update(
-    req: RequestWithBody<{ _id: string, obj: T }>,
-    res: Response<T | ResponseError>,
-  ): Promise<typeof res>;
+  // abstract update(
+  //   req: RequestWithBody<{ _id: string, obj: T }>,
+  //   res: Response<T | ResponseError>,
+  // ): Promise<typeof res>;
 
-  abstract delete(
-    req: RequestWithBody<{ _id: string }>,
-    res: Response<T | ResponseError>,
-  ): Promise<typeof res>;
+  // abstract delete(
+  //   req: RequestWithBody<{ _id: string }>,
+  //   res: Response<T | ResponseError>,
+  // ): Promise<typeof res>;
 }
 
 export default Controller;
