@@ -7,7 +7,7 @@ import { Motorcycle } from '../interfaces/MotorcycleInterface';
 class MotorcycleController extends Controller<Motorcycle> {
   private _route: string;
 
-  constructor(service = new MotorcycleService(), route = '/Motorcycles') {
+  constructor(service = new MotorcycleService(), route = '/motorcycles') {
     super(service);
     this._route = route;
   }
