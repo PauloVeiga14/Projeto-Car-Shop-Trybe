@@ -8,8 +8,6 @@ class CarService extends Service<Car> {
     super(model);
   }
 
-  // Métodos read() e readOne() não precisam de validação especial.
-
   create = async (obj: Car): Promise<Car | ServiceError | null> => {
     const parsed = CarSchema.safeParse(obj);
 

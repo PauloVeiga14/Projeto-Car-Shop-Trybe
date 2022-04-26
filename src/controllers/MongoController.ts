@@ -31,18 +31,18 @@ abstract class Controller<T> {
     }
   };
 
-  // abstract readOne(
-  //   req: Request<{ _id: string }>,
-  //   res: Response<T | ResponseError>
-  // ): Promise<typeof res>;
+  abstract readOne(
+    req: Request<{ id: string }>,
+    res: Response<T | ResponseError>
+  ): Promise<typeof res>;
 
   // abstract update(
-  //   req: RequestWithBody<{ _id: string, obj: T }>,
+  //   req: RequestWithBody<{ id: string, obj: T }>,
   //   res: Response<T | ResponseError>,
   // ): Promise<typeof res>;
 
   // abstract delete(
-  //   req: RequestWithBody<{ _id: string }>,
+  //   req: RequestWithBody<{ id: string }>,
   //   res: Response<T | ResponseError>,
   // ): Promise<typeof res>;
 }

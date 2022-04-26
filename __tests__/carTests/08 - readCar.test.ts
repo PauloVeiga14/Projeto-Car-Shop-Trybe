@@ -7,7 +7,7 @@ import * as carMock from '../utils/CarsMock';
 
 import server from '../../src/server';
 
-describe('08 - Crie uma rota para o endpoint /cars onde seja possível listar todos os carros registrados', () => {
+describe.skip('08 - Crie uma rota para o endpoint /cars onde seja possível listar todos os carros registrados', () => {
   beforeAll(async () => {
     await connection();
   });
