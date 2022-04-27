@@ -75,4 +75,75 @@ describe('Testa a camada CarService', () => {
       });
     });
   });
+
+  describe('Testa o método update', () => {
+    
+    const _id = "4edd40c86762e0fb12000003";
+
+    describe('Erro na atualização do veículo', () => {
+
+      it('Veículo atualizado com atributo model com menos de 3 caracteres', async() => {
+        const result = await carService.update(_id, {...data.newCar, model: 'ab'});
+
+        expect(result).to.have.an.property('error');
+      });
+
+      it('Veículo atualizado com o atributo year fora do intervalo permitido', async () => {
+        const firstResult = await carService.update(_id, {...data.newCar, year: 2050});
+        const secondResult = await carService.update(_id, {...data.newCar, year: 1000});
+
+        expect(firstResult).to.have.an.property('error');
+        expect(secondResult).to.have.an.property('error');
+      });
+
+      it('Veículo atualizado com o atributo color com menos de 3 caracteres', async () => {
+        const result = await carService.update(_id, {...data.newCar, color: 'ab'});
+
+        expect(result).to.have.an.property('error');
+      });
+
+      it('Veículo atualizado com valor do atributo buyValue diferente de inteiro', async () => {
+        const result = await carService.update(_id, {...data.newCar, buyValue: 15000.50});
+
+        expect(result).to.have.an.property('error');
+      });
+
+      it('Veículo atualizado com doorsQty fora do intervalo permitido', async () => {
+        const firstResult = await carService.update(_id, {...data.newCar, doorsQty: 1});
+        const secondResult = await carService.update(_id, {...data.newCar, doorsQty: 5});
+
+        expect(firstResult).to.have.an.property('error');
+        expect(secondResult).to.have.an.property('error');
+      });
+
+      it('Veículo atualizado com seatsQty fora do intervalo permitido', async () => {
+        const firstResult = await carService.update(_id, {...data.newCar, seatsQty: 1});
+        const secondResult = await carService.update(_id, {...data.newCar, seatsQty: 8});
+
+        expect(firstResult).to.have.an.property('error');
+        expect(secondResult).to.have.an.property('error');
+      });
+    });
+
+    // O teste abaixo não está incluindo a linha 28. Não sei o motivo. 
+    // Sugestão: verificar o retorno dessa linha no Postman.
+    
+    describe('Veículo atualizado com sucesso', () => {
+
+      before(() => {
+        sinon.stub(carService, 'update').resolves(data.createdCar);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+  
+      it('Retorna um objeto criado com sucesso', async () => {
+        const result = await carService.update(_id, data.newCar)
+  
+        expect(result).to.be.equal(data.createdCar);
+      });
+    });
+
+  });
 });
