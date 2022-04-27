@@ -2,7 +2,8 @@ import { z } from 'zod';
 import VehicleSchema from './VehicleInterface';
 
 const MotorcycleSchema = VehicleSchema.extend({
-  category: z.enum(['Street', 'Custom', 'Trail']),
+  category: z.nativeEnum({ 
+    Street: 'Street', Custom: 'Custom', Trail: 'Trail' }),
   engineCapacity: z.number().int().positive().lte(2500),
 });
 
