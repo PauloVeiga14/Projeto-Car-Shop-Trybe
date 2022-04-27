@@ -55,6 +55,9 @@ describe('Testa a camada CarService', () => {
       });
     });
 
+    // O teste abaixo não está incluindo a linha 18. Não sei o motivo. 
+    // Sugestão: verificar o retorno dessa linha no Postman.
+
     describe('Veículo criado com sucesso', () => {
 
       before(() => {
