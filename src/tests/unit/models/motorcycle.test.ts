@@ -20,8 +20,9 @@ describe('Testa a camada MotorcycleModel', () => {
       sinon.restore();
     });
 
-    it('Cadastra um novo Motorcyclero no banco de dados', async () => {
-      const result = await motorcycleModel.create(data.newMotorcycle);
+    it('Cadastra um novo Motorcycle no banco de dados', async () => {
+      const result = await motorcycleModel
+        .create({ ...data.newMotorcycle, category: 'Street' });
 
       expect(result).to.be.equal(data.createdMotorcycle);
     });
@@ -37,7 +38,7 @@ describe('Testa a camada MotorcycleModel', () => {
       sinon.restore();
     });
 
-    it('Retorna o array de Motorcycleros cadastrados', async () => {
+    it('Retorna o array de Motorcycles cadastradas', async () => {
       const result = await motorcycleModel.read();
 
       expect(result).to.be.equal(data.arrayOfMotorcycles);
@@ -72,7 +73,8 @@ describe('Testa a camada MotorcycleModel', () => {
     });
 
     it('Realiza o update de um Motorcyclero no banco de dados', async () => {
-      const result = await motorcycleModel.update(_id, data.updateMotorcycle);
+      const result = await motorcycleModel
+        .update(_id, { ...data.updateMotorcycle, category: 'Street' });
 
       expect(result).to.be.equal(data.updatedMotorcycle);
     });

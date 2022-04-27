@@ -10,7 +10,7 @@ const MotorcycleSchema = new Schema<MotorcycleDocument>({
   color: String,
   status: { type: Boolean, required: false },
   buyValue: Number,
-  category: [String], 
+  category: String, 
   engineCapacity: Number,
 }, { versionKey: false });
 
