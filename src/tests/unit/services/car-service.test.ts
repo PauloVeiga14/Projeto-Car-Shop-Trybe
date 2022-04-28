@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import { data } from '../../mocks/carMocks';
 
 import CarService from '../../../services/CarService';
+import mongoose from 'mongoose';
 
 describe('Testa a camada CarService', () => {
   
@@ -55,13 +56,10 @@ describe('Testa a camada CarService', () => {
       });
     });
 
-    // O teste abaixo não está incluindo a linha 18. Não sei o motivo. 
-    // Sugestão: verificar o retorno dessa linha no Postman.
-
     describe('Veículo criado com sucesso', () => {
 
       before(() => {
-        sinon.stub(carService, 'create').resolves(data.createdCar);
+        sinon.stub(mongoose.Model, 'create').resolves(data.createdCar);
       });
 
       after(() => {
@@ -124,14 +122,11 @@ describe('Testa a camada CarService', () => {
         expect(secondResult).to.have.an.property('error');
       });
     });
-
-    // O teste abaixo não está incluindo a linha 28. Não sei o motivo. 
-    // Sugestão: verificar o retorno dessa linha no Postman.
     
     describe('Veículo atualizado com sucesso', () => {
 
       before(() => {
-        sinon.stub(carService, 'update').resolves(data.createdCar);
+        sinon.stub(mongoose.Model, 'findOneAndUpdate').resolves(data.updatedCar);
       });
 
       after(() => {
@@ -139,9 +134,9 @@ describe('Testa a camada CarService', () => {
       });
   
       it('Retorna um objeto criado com sucesso', async () => {
-        const result = await carService.update(_id, data.newCar)
+        const result = await carService.update(_id, data.updateCar)
   
-        expect(result).to.be.equal(data.createdCar);
+        expect(result).to.be.equal(data.updatedCar);
       });
     });
 
