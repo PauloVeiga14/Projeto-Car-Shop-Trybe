@@ -14,7 +14,6 @@ class CarService extends Service<Car> {
     if (!parsed.success) {
       return { error: parsed.error };
     }
-
     return this.model.create(obj);
   };
 
