@@ -2,11 +2,9 @@ import * as sinon from 'sinon';
 import chai from 'chai';
 import mongoose from 'mongoose';
 import { Response } from 'superagent';
-import { data } from '../../mocks/carMocks';
+import { data } from '../../mocks/motorcycleMocks';
 import server from '../../../server';
 import chaiHttp = require('chai-http');
-
-const app = server.startServer();
 
 chai.use(chaiHttp);
 
@@ -14,21 +12,21 @@ const { expect } = chai;
 
 let response: Response;
 
-describe('Testa a camada CarController', () => {
-  describe('Testa a rota POST /cars', () => {
+describe('Testa a camada MotorcycleController', () => {
+  describe('Testa a rota POST /motorcycles', () => {
 
-    describe('Requisição para criar carro é enviada incorretamente', () => {
+    describe('Requisição para criar motocicleta é enviada incorretamente', () => {
 
       it('Retorna status 400', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send({ ...data.newCar, model: 'ab' });
+          .post('/motorcycles').send({ ...data.newMotorcycle, model: 'ab' });
 
         expect(response.status).to.be.equal(400);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send({ ...data.newCar, model: 'ab' });
+          .post('/motorcycles').send({ ...data.newMotorcycle, model: 'ab' });
 
         expect(response.body).to.have.property('error');
       });
@@ -46,14 +44,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 400', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send(data.newCar);
+          .post('/motorcycles').send(data.newMotorcycle);
 
         expect(response.status).to.be.equal(400);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send(data.newCar);
+          .post('/motorcycles').send(data.newMotorcycle);
 
         expect(response.body).to.have.property('error');
       });
@@ -71,23 +69,23 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 500', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send(data.newCar);
+          .post('/motorcycles').send(data.newMotorcycle);
 
         expect(response.status).to.be.equal(500);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send(data.newCar);
+          .post('/motorcycles').send(data.newMotorcycle);
 
         expect(response.body.error).to.be.equal('Internal Server Error');
       });
     });
 
-    describe('Carro é criado com sucesso', () => {
+    describe('Motocicleta é criada com sucesso', () => {
 
       before(() => {
-        sinon.stub(mongoose.Model, 'create').resolves(data.createdCar);
+        sinon.stub(mongoose.Model, 'create').resolves(data.createdMotorcycle);
       });
 
       after(() => {
@@ -96,21 +94,21 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 201', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send(data.newCar);
+          .post('/motorcycles').send(data.newMotorcycle);
 
         expect(response.status).to.be.equal(201);
       });
 
-      it('Retorna um novo carro criado', async () => {
+      it('Retorna uma nova motocicleta criada', async () => {
         let response = await chai.request('http://localhost:3001')
-          .post('/cars').send(data.newCar);
+          .post('/motorcycles').send(data.newMotorcycle);
 
         expect(response.body).to.have.property('_id');
       });
     });
   });
 
-  describe('Testa a rota GET /cars/', () => {
+  describe('Testa a rota GET /motorcycles/', () => {
 
     describe('Requisição retorna com erro no sistema', () => {
 
@@ -124,14 +122,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 500', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars');
+          .get('/motorcycles');
 
         expect(response.status).to.be.equal(500);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars');
+          .get('/motorcycles');
 
         expect(response.body.error).to.be.equal('Internal Server Error');
       });
@@ -140,7 +138,7 @@ describe('Testa a camada CarController', () => {
     describe('Retorna com o(s) objeto(s) solicitado(s)', () => {
 
       before(() => {
-        sinon.stub(mongoose.Model, 'find').resolves(data.arrayOfCars);
+        sinon.stub(mongoose.Model, 'find').resolves(data.arrayOfMotorcycles);
       });
 
       after(() => {
@@ -149,21 +147,21 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 200', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars');
+          .get('/motorcycles');
 
         expect(response.status).to.be.equal(200);
       });
 
-      it('Retorna o array de carros', async () => {
+      it('Retorna o array de motocicletas', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars');
+          .get('/motorcycles');
 
-        expect(response.body).to.be.deep.equal(data.arrayOfCars);
+        expect(response.body).to.be.deep.equal(data.arrayOfMotorcycles);
       });
     });
   });
 
-  describe('Testa a rota GET /cars/:id', () => {
+  describe('Testa a rota GET /motorcycles/:id', () => {
 
     const id = '4edd40c86762e0fb12000003';
 
@@ -171,14 +169,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 400', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars/1');
+          .get('/motorcycles/1');
 
         expect(response.status).to.be.equal(400);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars/1');
+          .get('/motorcycles/1');
 
         expect(response.body.error).to.be.equal('Id must have 24 hexadecimal characters');
       });
@@ -196,14 +194,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 404', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars/123456789012345678901234')
+          .get('/motorcycles/123456789012345678901234')
 
         expect(response.status).to.be.equal(404);
       });
 
       it('Retorna com corpo da mensagem null', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get('/cars/123456789012345678901234')
+          .get('/motorcycles/123456789012345678901234')
 
         expect(response.body.error).to.be.equal('Object not found');
       });
@@ -221,14 +219,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 500', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get(`/cars/${id}`);
+          .get(`/motorcycles/${id}`);
 
         expect(response.status).to.be.equal(500);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get(`/cars/${id}`);
+          .get(`/motorcycles/${id}`);
 
         expect(response.body.error).to.be.equal('Internal Server Error');
       });
@@ -237,7 +235,7 @@ describe('Testa a camada CarController', () => {
     describe('Retorna com o objeto solicitado', () => {
 
       before(() => {
-        sinon.stub(mongoose.Model, 'findOne').resolves(data.createdCar);
+        sinon.stub(mongoose.Model, 'findOne').resolves(data.createdMotorcycle);
       });
 
       after(() => {
@@ -246,21 +244,21 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 200', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get(`/cars/${id}`);
+          .get(`/motorcycles/${id}`);
 
         expect(response.status).to.be.equal(200);
       });
 
-      it('Retorna o carro com id enviado', async () => {
+      it('Retorna o motocicleta com id enviado', async () => {
         let response = await chai.request('http://localhost:3001')
-          .get(`/cars/${id}`);
+          .get(`/motorcycles/${id}`);
 
-        expect(response.body).to.be.deep.equal(data.createdCar);
+        expect(response.body).to.be.deep.equal(data.createdMotorcycle);
       });
     });
   });
 
-  describe('Testa a rota PUT /cars/:id', () => {
+  describe('Testa a rota PUT /motorcycles/:id', () => {
 
     const id = '4edd40c86762e0fb12000003';
 
@@ -268,14 +266,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 400', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put('/cars/1').send(data.updateCar);;
+          .put('/motorcycles/1').send(data.updateMotorcycle);;
 
         expect(response.status).to.be.equal(400);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put('/cars/1').send(data.updateCar);;
+          .put('/motorcycles/1').send(data.updateMotorcycle);;
 
         expect(response.body.error).to.be.equal('Id must have 24 hexadecimal characters');
       });
@@ -293,24 +291,24 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 404', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put(`/cars/${id}`).send(data.updateCar);
+          .put(`/motorcycles/${id}`).send(data.updateMotorcycle);
 
         expect(response.status).to.be.equal(404);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put(`/cars/${id}`).send(data.updateCar);
+          .put(`/motorcycles/${id}`).send(data.updateMotorcycle);
 
         expect(response.body).to.have.property('error');
       });
     });
 
-    describe('Requisição para atualizar carro é enviada incorretamente', () => {
+    describe('Requisição para atualizar motocicleta é enviada incorretamente', () => {
 
       it('Retorna status 400', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put(`/cars/${id}`).send({ model: 'ab' });
+          .put(`/motorcycles/${id}`).send({ ...data.newMotorcycle, model: 'ab' });
 
         expect(response.status).to.be.equal(400);
       });
@@ -328,23 +326,23 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 500', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put(`/cars/${id}`).send(data.updateCar);
+          .put(`/motorcycles/${id}`).send(data.updateMotorcycle);
 
         expect(response.status).to.be.equal(500);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put(`/cars/${id}`).send(data.updateCar);
+          .put(`/motorcycles/${id}`).send(data.updateMotorcycle);
 
         expect(response.body.error).to.be.equal('Internal Server Error');
       });
     });
 
-    describe('Carro é atualizado com sucesso', () => {
+    describe('motocicleta é atualizado com sucesso', () => {
 
       before(() => {
-        sinon.stub(mongoose.Model, 'findOneAndUpdate').resolves(data.updatedCar);
+        sinon.stub(mongoose.Model, 'findOneAndUpdate').resolves(data.updatedMotorcycle);
       });
 
       after(() => {
@@ -353,22 +351,21 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 200', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put(`/cars/${id}`).send(data.updateCar);
+          .put(`/motorcycles/${id}`).send(data.updateMotorcycle);
 
         expect(response.status).to.be.equal(200);
       });
 
-      it('Retorna um novo carro criado', async () => {
+      it('Retorna um novo motocicleta criado', async () => {
         let response = await chai.request('http://localhost:3001')
-          .put(`/cars/${id}`).send(data.updateCar);
+          .put(`/motorcycles/${id}`).send(data.updateMotorcycle);
 
-        expect(response.body).to.be.deep.equal(data.updatedCar);
+        expect(response.body).to.be.deep.equal(data.updatedMotorcycle);
       });
     });
   })
 
-
-  describe('Testa a rota DELETE /cars/:id', () => {
+  describe('Testa a rota DELETE /motorcycles/:id', () => {
 
     const id = '4edd40c86762e0fb12000003';
 
@@ -376,14 +373,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 400', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete('/cars/1');
+          .delete('/motorcycles/1');
 
         expect(response.status).to.be.equal(400);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete('/cars/1');
+          .delete('/motorcycles/1');
 
         expect(response.body.error).to.be.equal('Id must have 24 hexadecimal characters');
       });
@@ -401,14 +398,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 404', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete(`/cars/${id}`);
+          .delete(`/motorcycles/${id}`);
 
         expect(response.status).to.be.equal(404);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete(`/cars/${id}`);
+          .delete(`/motorcycles/${id}`);
 
         expect(response.body).to.have.property('error');
       });
@@ -426,23 +423,23 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 500', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete(`/cars/${id}`);
+          .delete(`/motorcycles/${id}`);
 
         expect(response.status).to.be.equal(500);
       });
 
       it('Retorna uma mensagem de erro', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete(`/cars/${id}`);
+          .delete(`/motorcycles/${id}`);
 
         expect(response.body.error).to.be.equal('Internal Server Error');
       });
     });
 
-    describe('Carro é deletado com sucesso', () => {
+    describe('Motocicleta é deletada com sucesso', () => {
 
       before(() => {
-        sinon.stub(mongoose.Model, 'findOneAndDelete').resolves(data.createdCar);
+        sinon.stub(mongoose.Model, 'findOneAndDelete').resolves(data.createdMotorcycle);
       });
 
       after(() => {
@@ -451,14 +448,14 @@ describe('Testa a camada CarController', () => {
 
       it('Retorna status 204', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete(`/cars/${id}`);
+          .delete(`/motorcycles/${id}`);
 
         expect(response.status).to.be.equal(204);
       });
 
-      it('Retorna um novo carro criado', async () => {
+      it('Retorna um novo motocicleta criado', async () => {
         let response = await chai.request('http://localhost:3001')
-          .delete(`/cars/${id}`);
+          .delete(`/motorcycles/${id}`);
 
         expect(response.body).to.be.deep.equal({});
       });
